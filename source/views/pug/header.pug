@@ -1,0 +1,41 @@
+header.header
+  .header__container
+    .header__info.info-header
+      .info-header__logo
+        a.info-header__link-main(href='localhost:3000')
+          img.info-header__link-image(src='./images/logo.png', alt='logoImg')
+      .info-header__contacts
+        span.info-header__number 8 800 555 35 35
+        span.info-header__worktime Круглосуточно
+    ul.header__links.links-header
+      li.links-header__item.links-header__account
+        img.links-header__image.links-header__image-account(src='./images/icons/user_icon.svg', alt='userIcon')
+        span Вход
+      li.links-header__modal.links-header__modal-account.--hidden
+        .modal-account__container.modal-account__container-user.modal__container.--hidden
+          button.modal-account__btn.modal-account__btn-logout.modal__btn Выйти
+        .modal-account__container.modal-account__container-login.modal__container
+          .modal-account__title.modal__title
+            h3.modal-account__title-login Вход
+          span.modal-account__inputErrorMessage.--hidden Ошибка. Проверьте введенные данные
+          input.modal-account__number.modal-account__input-edit(type='tel', placeholder='Номер телефона', maxlength='11', pattern='[0-9]{11}')
+          input.modal-account__password.modal-account__input-edit(type='password', placeholder='Пароль', minlength='6', maxlength='16')
+          button.modal-account__btn.modal-account__btn-login.modal__btn Войти
+          span.modal-account__close.modal__close
+            img(src='./images/icons/close_icon.svg', alt='x')
+      li.links-header__item.links-header__workspace.--hidden
+        a.links-header__workspace-link(href='/workspace')
+          img.links-header__image.links-header__image-workspace(src='./images/icons/workspace_icon.svg', alt='workspaceIcon')
+      li.links-header__item.links-header__basket
+        img.links-header__image.links-header__image-basket(src='./images/icons/basket_icon.svg', alt='basketIcon')
+      li.links-header__modal.links-header__modal-basket.modal-basket.--hidden
+        .modal-basket__container.modal__container
+          .modal-basket__title.modal__title
+            h3 Ваш заказ
+          .modal-basket__order
+          .modal-basket__controls
+            span.modal-basket__close.modal__close
+              img(src='./images/icons/close_icon.svg', alt='x')
+            p.modal-basket__total Итого:
+              span.modal-basket__sum 0 ₽
+            button.modal-basket__btn.modal__btn Оформить заказ

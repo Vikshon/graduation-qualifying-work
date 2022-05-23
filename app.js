@@ -11,7 +11,7 @@ app.set('views', __dirname + '/source/views');
 app.set('view engine', 'pug');
 
 app.get('/', async (req, res) => {
-    res.render('main/main', { title: 'Document', data: 'zxc' });
+    res.render('pug/main', { title: 'Document', data: 'zxc' });
 });
 
 app.get('/workspace', async (req, res) => {
