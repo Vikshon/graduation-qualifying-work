@@ -41,6 +41,8 @@ function CheckUser() {
     acc = localStorage.getItem('acc');
     if (!acc)
         return;
+    [Name, Role] = acc.split(',');
+    document.querySelector('.links-header__account-user').innerText = Name;    
     workspaceBlock.classList.remove('--hidden');
     accountModalLogin.classList.add('--hidden');
     accountModalUser.classList.remove('--hidden');
@@ -99,6 +101,7 @@ function ValidateInput(inputData, errorMessage) {
 }
 
 function Logout() {
+    // ! TODO: If unknown user do display: block and press logout btn it still reloads page.. Add CheckRole
     localStorage.removeItem('acc');
     document.location.reload();
 }

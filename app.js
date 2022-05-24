@@ -16,7 +16,8 @@ app.get('/', async (req, res) => {
 
 app.get('/workspace', async (req, res) => {
     // ! Любой может зайти на страницу предназначенную для ролей, если укажет параметр
-    let role = Object.keys(req.query)[0];
+    res.render('pug/workspace', { title: 'Document', data: 'zxc' });
+    /* let role = Object.keys(req.query)[0];
     switch (role) {
         case '1':
             res.render('workspace/waiter/waiter', { title: 'Document', data: 'zxc' });
@@ -30,7 +31,7 @@ app.get('/workspace', async (req, res) => {
         default:
             res.render('workspace/no-access/noAccess', { title: 'Document', data: 'zxc' });
             break;
-    }
+    } */
 });
 
 app.get('/order-registration', async (req, res) => {

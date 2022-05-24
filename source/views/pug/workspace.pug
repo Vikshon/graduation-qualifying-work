@@ -5,21 +5,20 @@ html
     meta(http-equiv='X-UA-Compatible' content='IE=edge')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
     link(rel='icon', href='./images/logo.png')
-    link(rel='stylesheet', href='./views/css/main.css')
     link(rel='stylesheet', href='./views/css/default.css')
     link(rel='stylesheet', href='./views/css/header.css')
     link(rel='stylesheet', href='./views/css/footer.css')
     script(src='./views/js/header.js', defer)
-    script(src='./views/js/main.js', defer)
+    script(src="./views/js/workspace.js", defer)
     title= title
   body
     .wrapper
       include ./header.pug
-      main.main
-        .main__banner
-          img(src='/images/banners/main_banner-3.jpg', alt='main_banner')
-        .menu
-          .menu__header
-            h1 Пицца
-          .menu__container
+      script.
+        var user = localStorage.getItem('acc');
+        console.log(user);
+      if user
+        h2 user
+      else 
+        h2 not
       include ./footer.pug

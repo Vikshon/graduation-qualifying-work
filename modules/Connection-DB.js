@@ -6,7 +6,7 @@ async function GetData(table = 'dishes') {
         const connection = await mysql.createConnection({
             host: '127.0.0.1',
             user: 'root',
-            database: 'vkr'
+            database: 'vkr-lithium'
         });
     
         const [rows, fields] = await connection.execute(query);

@@ -1,0 +1,137 @@
+.main__banner {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.main img {
+    width: 100%;
+}
+.main .menu {
+    width: 80%;
+    margin: 0 auto;
+    flex: 1 0 auto;
+}
+@media (max-width: 1024px) {
+    .main .menu {
+        width: 100%;
+    }
+}
+.main .menu .menu__container {
+    display: flex;
+    flex-wrap: wrap;
+}
+.main .menu .menu__header h1 {
+    padding: 5px 0;
+    text-align: center;
+}
+.menu__container .menu__slot {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 15px;
+    width: 25%;
+}
+@media (max-width: 768px) {
+    .menu__container .menu__slot {
+        width: 50%;
+    }
+    .main__banner {
+        height: 0;
+        margin: 0;
+    }
+}
+@media (max-width: 425px) {
+    .menu__container .menu__slot {
+        width: 100%;
+    }
+}
+.menu__slot .preview {
+    padding: 0 5px;
+}
+.slot__info {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.menu__slot .slot__info .slot__name {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.menu__slot .slot__info .slot__description {
+    margin-bottom: 5px;
+    flex: 1 0 auto;
+}
+.slot__size {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.slot__availableSizes {
+    display: inline-flex;
+}
+.slot__availableSizes label {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.slot__availableSizes .size {
+    font-weight: bold;
+    z-index: 1;
+    position: absolute;
+}
+.slot__availableSizes label input {
+    opacity: 0;
+    width: 50px;
+    height: 50px;
+}
+@media (min-width: 2000px) {
+    .slot__availableSizes label input {
+        width: 80px;
+        height: 80px;
+    }
+}
+.slot__availableSizes label input:checked ~ .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: orange;
+    border-radius: 50%;
+}
+.slot__weight {
+    display: inline;
+}
+.slot__total {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+.slot__cost {
+    font-size: 2rem;
+    font-weight: bold;
+}
+.slot__basketAdd {
+    border-radius: 30px;
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    border: 1px solid #000;
+    background-color: #ff0;
+}
+.slot__basketAdd:active {
+    background-color: #fa0;
+    border: 1px solid #f00;
+}
+.--unselectable {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* Non-prefixed version, currently not supported by any browser */
+}
