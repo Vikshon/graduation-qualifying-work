@@ -16,22 +16,23 @@ app.get('/', async (req, res) => {
 
 app.get('/workspace', async (req, res) => {
     // ! Любой может зайти на страницу предназначенную для ролей, если укажет параметр
-    res.render('pug/workspace', { title: 'Document', data: 'zxc' });
-    /* let role = Object.keys(req.query)[0];
+    // res.render('pug/workspace', { title: 'Document', data: 'zxc' });
+    let role = Object.keys(req.query)[0];
     switch (role) {
         case '1':
-            res.render('workspace/waiter/waiter', { title: 'Document', data: 'zxc' });
+            res.render('pug/workspace-waiter', { title: 'Document', data: 'zxc' });
             break;
         case '2':
-            res.render('workspace/cook/cook', { title: 'Document', data: 'zxc' });
+            res.render('pug/workspace-cook', { title: 'Document', data: 'zxc' });
             break;
         case '3':
-            res.render('workspace/manager/manager', { title: 'Document', data: 'zxc' });
+            res.render('pug/workspace-manager', { title: 'Document', data: 'zxc' });
             break;
+        // ! Изменить. Убрать пункт default. Добавить редирект на ссылку no-access
         default:
-            res.render('workspace/no-access/noAccess', { title: 'Document', data: 'zxc' });
+            res.render('pug/no-access', { title: 'Document', data: 'zxc' });
             break;
-    } */
+    }
 });
 
 app.get('/order-registration', async (req, res) => {

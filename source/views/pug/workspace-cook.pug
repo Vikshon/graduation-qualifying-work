@@ -8,17 +8,21 @@ html
     link(rel='stylesheet', href='./views/css/default.css')
     link(rel='stylesheet', href='./views/css/header.css')
     link(rel='stylesheet', href='./views/css/footer.css')
+    link(rel='stylesheet', href='./views/css/workspace-cook.css')
     script(src='./views/js/header.js', defer)
-    script(src="./views/js/workspace.js", defer)
+    script(src="./views/js/workspace-cook.js", defer)
     title= title
   body
     .wrapper
       include ./header.pug
-      script.
-        var user = localStorage.getItem('acc');
-        console.log(user);
-      if user
-        h2 user
-      else 
-        h2 not
+      main.main
+        h1.main__welcome Рабочая панель пользователя
+        .main__container
+          .main__tabs.tabs
+            .tabs__orders Заказы
+            .tabs__settings Настройки
+          .main__content.content
+            .content__header
+              h2 Выберите меню
+            .content__info
       include ./footer.pug

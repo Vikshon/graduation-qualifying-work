@@ -42,7 +42,8 @@ function CheckUser() {
     if (!acc)
         return;
     [Name, Role] = acc.split(',');
-    document.querySelector('.links-header__account-user').innerText = Name;    
+    document.querySelector('.links-header__account-user').innerText = Name;
+    workspaceBlock.querySelector('a').href = `/workspace?${Role}`;
     workspaceBlock.classList.remove('--hidden');
     accountModalLogin.classList.add('--hidden');
     accountModalUser.classList.remove('--hidden');
@@ -118,6 +119,6 @@ async function FetchTable(table) {
         body: JSON.stringify({ q: table })
     })
     .then((res) => res.json());
-    console.log(data);
+    // console.log(data);
     return data;
 }
