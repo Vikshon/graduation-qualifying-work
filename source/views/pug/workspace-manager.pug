@@ -8,9 +8,9 @@ html
     link(rel='stylesheet', href='./views/css/default.css')
     link(rel='stylesheet', href='./views/css/header.css')
     link(rel='stylesheet', href='./views/css/footer.css')
-    link(rel='stylesheet', href='./views/css/workspace-cook.css')
+    link(rel='stylesheet', href='./views/css/workspace-manager.css')
     script(src='./views/js/header.js', defer)
-    script(src="./views/js/workspace-cook.js", defer)
+    script(src="./views/js/workspace-manager.js", defer)
     title= title
   body
     .wrapper
@@ -19,8 +19,21 @@ html
         h1.main__welcome Рабочая панель пользователя
         .main__container
           .main__tabs.tabs
-            .tabs__orders Заказы
-            .tabs__storage Склад
+            .tabs__register Создать учетную запись
+            .tabs__dbcontrol Настройка базы данных
+            ul.tabs__dbtables
+              li.tabs__table Orders
+              li.tabs__table OrdersList
+              li.tabs__table Products
+              li.tabs__table Recipes
+              li.tabs__table Dishes
+              li.tabs__table IngredientLists
+              li.tabs__table Employees
+              li.tabs__table Roles
+              li.tabs__table Storage
+              li.tabs__table StorageOperations
+              li.tabs__table SupplyLists
+            .tabs__products-order Заказать продукты
             .tabs__settings Настройки
           .main__content.content
             .content__header

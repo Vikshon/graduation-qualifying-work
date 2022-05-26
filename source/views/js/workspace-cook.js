@@ -1,7 +1,10 @@
 const h2 = document.querySelector('h2');
 const contentInfo = document.querySelector('.content__info');
 const tabOrders = document.querySelector('.tabs__orders');
+const tabStorage = document.querySelector('.tabs__storage');
+const tabSettings = document.querySelector('.tabs__settings');
 tabOrders.addEventListener('click', GenerateOrders);
+tabStorage.addEventListener('click', GenerateStorage);
 let orders;
 let ordersList;
 let products;
@@ -9,16 +12,16 @@ let recipes;
 let dishes;
 let employees;
 let ingredientLists;
+let storage;
 
 window.addEventListener('load', async () => {
+    CheckAccess();
     // ! REFACTOR multi-await fetch TO promise.all
     products = await FetchTable('products');
     dishes = await FetchTable('dishes');
     recipes = await FetchTable('recipes');
     employees = await FetchTable('employees');
     console.log(employees)
-
-    // GroupMenu();
 })
 
 async function GenerateOrders() {
@@ -26,7 +29,6 @@ async function GenerateOrders() {
     contentInfo.innerHTML = `<div class="orders__rows"></div>`;
     h2.innerText = "Список заказов";
     orders = await FetchTable('orders');
-    console.log(orders)
     ordersList = await FetchTable('orders-list');
     ingredientLists = await FetchTable('ingredient-lists');
 
@@ -83,8 +85,8 @@ function ListDishesTemplate(orderList, newRow) {
         let newDish = document.createElement('div');
         newDish.classList.add('list__dish', 'dish');
         newDish.innerHTML += `
-            <h4 class="dish__header">Пицца "${dishName}" - ${dish.Amount} шт.</h4>
-            <ul class="dish__ingredients">Состав:</ul>`;
+            <h3 class="dish__header">Пицца "${dishName}" - ${dish.Amount} шт.</h3>
+            <ul class="dish__ingredients">Ингредиенты:</ul>`;
         let ul = newDish.querySelector('.dish__ingredients');
         for (let i of dishIngredients) {
             let ingredientName = products.find(p => p.id === i['Product id']).Name;
@@ -95,28 +97,56 @@ function ListDishesTemplate(orderList, newRow) {
     return;
 }
 
-/* function ListDishesTemplate(orderList, newRow) {
-    for (let dish of orderList) {
-        let dishName = dishes.find(d => d.id === dish['Dish id']).Name;
-        let dishIngredients = recipes.filter(r => r['Dish ID'] === dish['Dish id']);
-        let newDish = document.createElement('div');
-        newDish.classList.add('list__dish', 'dish');
-        newDish.innerHTML += `<h4 class="dish__header">Пицца "${dishName}" - ${dish.Amount} шт.</h4>
-                                <ul class="dish__ingredients">Состав:</ul>`;
-        let ul = newDish.querySelector('.dish__ingredients');
-        console.log('asd', dishIngredients)
-        for (let i of dishIngredients) {
-            let ingredientName = products.find(p => p.id === i['Product ID']).Name;
-            let ingredientAmount = i.Amount;
-            let ingredientUnit = products.find(p => p.id === i['Product ID']).Unit;
-            ul.innerHTML += `<li>${ingredientName} - ${ingredientAmount} ${ingredientUnit}</li>`
-        }
-        newRow.querySelector('.list__dishes').appendChild(newDish);
-    }
-    return;
-} */
+async function GenerateStorage() {
+    storage = await FetchTable('storage');
+    products = await FetchTable('products');
 
-function GroupMenu() {
+    GenerateTable();
+}
+
+function GenerateTable() {
+    contentInfo.innerHTML = `<div class="table__container">
+                                <table>
+                                    <thead class="table__headers"><tr></tr></thead>
+                                    <tbody class="table__body"></tbody>
+                                </table>
+                            </div>`;
+    FillTable();
+}
+
+function FillTable() {
+    let rows = storage.length;
+    let columns = Object.keys(storage[0]).length;
+    const tableHeaders = document.querySelector('table .table__headers tr');
+    const tableBody = document.querySelector('table .table__body');
+    Object.keys(storage[0]).forEach(el => {
+        tableHeaders.innerHTML += `<th>${el}</th>`;
+    });
+    tableHeaders.querySelector('th').innerText = 'Product';
+    storage.forEach(el => {
+        let rowValues = Object.values(el);
+        tableBody.innerHTML += `<tr></tr>`;
+        for (let i of rowValues) {
+            tableBody.lastElementChild.innerHTML += `<td>${i}</td>`;
+        }
+        let productName = products.find(p => p.id === el['Product id']).Name;
+        tableBody.lastElementChild.querySelector('td').innerText = productName;
+    });
+}
+
+function CheckAccess() {
+    let paramRoleId = window.location.search.slice(1);
+    acc = localStorage.getItem('acc');
+    console.log(acc)
+    if (!acc)
+        return window.location.replace('/no-access');
+    [Name, Role] = acc.split(',');
+    if (paramRoleId !== Role)
+        return window.location.replace('/no-access');
+    h1.innerText += ` ${Name}`;
+}
+
+/* function GroupMenu() {
     let newMenu = [];
     dishes.forEach(el => {
         el.Price = [+el.Price];
@@ -135,4 +165,4 @@ function GroupMenu() {
         newMenu.push(el);
     });
     dishes = newMenu;
-}
+} */
