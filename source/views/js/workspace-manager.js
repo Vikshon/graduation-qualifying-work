@@ -1,9 +1,9 @@
 const h1 = document.querySelector('h1.main__welcome');
 const h2 = document.querySelector('.content__header h2');
 const contentInfo = document.querySelector('.content__info');
-const settingsOrders = document.querySelector('.tabs__settings');
 const tabRegister = document.querySelector('.tabs__register');
 const tabStorage = document.querySelector('.tabs__products-order');
+const tabSettings = document.querySelector('.tabs__settings');
 const tabDbControl = document.querySelector('.tabs__dbcontrol');
 const DbControlSubtabs = document.querySelector('.tabs__dbtables');
 let orders;
@@ -21,6 +21,7 @@ let supplyLists;
 tabRegister.addEventListener('click', CreateAccount);
 tabDbControl.addEventListener('click', () => DbControlSubtabs.classList.toggle('visible'));
 tabStorage.addEventListener('click', GenerateStorageMenu);
+tabSettings.addEventListener('click', GenerateSettingsMenu);
 for (let i of DbControlSubtabs.children)
     i.addEventListener('click', GenerateDBMenu);
 window.addEventListener('load', async () => {
@@ -32,18 +33,19 @@ window.addEventListener('load', async () => {
 })
 
 async function CreateAccount() {
-    h2.innerText = 'Регистриация нового аккаунта';
+    h2.innerText = 'Регистрация нового аккаунта';
     employees = await FetchTable('employees');
     GenerateForm();
+    // const registerBtn = contentInfo.querySelector('.submitBtn')
 }
 
 function GenerateForm() {
     contentInfo.innerHTML = `<div class="content__info-container">
-                                <form class="register-form" action="/register-account" method="POST">
-                                    <label><span class="label__header">Имя</span><input required type="text" maxlength="50"></label>
-                                    <label><span class="label__header">Пароль</span><input required type="text" minlength="6" maxlength="16"></label>
-                                    <label><span class="label__header">Номер телефона</span><input required type="tel" pattern="[0-9]{11}" maxlength="11"></label>
-                                    <label><span class="label__header">Роль</span><select><option value="1">Официант</option><option value="2">Повар</option><option value="3">Менеджер</option></select></label>
+                                <form class="content__form register-form" action="/register-account" method="POST">
+                                    <label><span class="label__header">Имя</span><input name="name" required type="text" maxlength="50"></label>                                    
+                                    <label><span class="label__header">Номер телефона</span><input name="phoneNumber" required type="tel" pattern="[0-9]{11}" maxlength="11"></label>
+                                    <label><span class="label__header">Пароль</span><input name="password" required type="text" minlength="6" maxlength="16"></label>
+                                    <label><span class="label__header">Должность</span><select name="roleId"><option value="1">Официант</option><option value="2">Повар</option><option value="3">Менеджер</option></select></label>
                                     <div class="form__buttons">
                                         <button type="submit" class="submitBtn">Создать</button>
                                         <button type="reset" class="resetBtn">Очистить</button>
@@ -136,8 +138,81 @@ function FillTable(tableData) {
     })
 }
 
-function GenerateStorageMenu() {
-    // 
+async function GenerateStorageMenu() {
+    h2.innerText = 'Оформить заказ продуктов';
+    products = await FetchTable('products');
+    storage = await FetchTable('storage');
+    contentInfo.innerHTML = `<div class="table__container">
+                                        <table class="table-productsOrder">
+                                            <thead class="table__headers"><tr>
+                                                <td>Название</td>
+                                                <td>Количество на складе</td>
+                                                <td>Единица измерения</td>
+                                                <td>Цена за 100 г / мл</td>
+                                                <td>Добавить к заказу</td>
+                                            </tr></thead>
+                                            <tbody class="table__body"></tbody>
+                                        </table>
+                                    </div>`;
+    let tbody = contentInfo.querySelector('tbody');
+    for (let i of products) {
+        let productName = i.Name;
+        let productCost = i.Cost;
+        let productAmount = 0;
+        let productUnit = '-';
+        let isInStorage = storage.find(p => p['Product id'] === i.id);
+        if (isInStorage) {
+            productAmount = isInStorage.Amount;
+            productUnit = isInStorage.Unit;
+        }
+        tbody.innerHTML += `<tr>
+                                <td>${productName}</td>
+                                <td>${productAmount}</td>
+                                <td>${productUnit}</td>
+                                <td>${productCost}</td>
+                                <td class="table__productOrderAmount"><input type="number" placeholder="0" min="0" max="9999"></td>
+                            </tr>`;
+    }
+    tbody.innerHTML += `<tr id="productsOrderLastRow">
+                            <td><input type="text"></td>
+                            <td><input type="number"></td>
+                            <td><select><option value="-">-</option><option value="г">г</option><option value="мл">мл</option><option value="кг">кг</option><option value="л">л</option></select></td>
+                            <td><input type="number" min="1" max="9999"></td>
+                            <td><input type="number" min="0" max="9999"></td>
+                        </tr>`;
+    // ! ZXC
+    tbody.querySelector('#productsOrderLastRow').addEventListener('click', () => {});
+    contentInfo.innerHTML += `<div class="form__buttons">
+                                <button>Создать заказ</button>
+                            </div>`
+}
+
+async function GenerateSettingsMenu() {
+    h2.innerText = 'Данные учетной записи';
+    employees = await FetchTable('employees');
+    roles = await FetchTable('roles');
+    GenerateSettingsForm();
+}
+
+function GenerateSettingsForm() {    
+    [Name, Role] = acc.split(',');
+    let user = employees.find(e => e.Name === Name);
+    let userName = Name;
+    let userPhoneNumber = user['Phone number'];
+    let userPassword = user.Password;
+    let jobTitle = roles.find(r => r.id === user['Role id'])['Role name'];
+    return contentInfo.innerHTML = `<div class="content__info-container">
+                                        <form class="content__form settings-form" action="/edit-account" method="POST">
+                                            <label><span class="label__header">Имя</span><input required type="text" maxlength="50" value="${userName}" disabled></label>
+                                            <label><span class="label__header">Номер телефона</span><input required type="tel" pattern="[0-9]{11}" maxlength="11" value="${userPhoneNumber}"></label>
+                                            <label><span class="label__header">Пароль</span><input required type="text" minlength="6" maxlength="16" value="${userPassword}"></label>
+                                            <label><span class="label__header">Должность</span><input required type="text" value="${jobTitle}" disabled></label>
+                                            <div class="form__buttons">
+                                                <button type="submit" class="submitBtn">Сохранить</button>
+                                                <button type="reset" class="resetBtn">Отменить</button>
+                                            </div>
+                                        </form>
+                                    </div>`;
 }
 
 function CheckAccess() {

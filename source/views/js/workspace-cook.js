@@ -1,3 +1,4 @@
+const h1 = document.querySelector('h1');
 const h2 = document.querySelector('h2');
 const contentInfo = document.querySelector('.content__info');
 const tabOrders = document.querySelector('.tabs__orders');
@@ -137,7 +138,6 @@ function FillTable() {
 function CheckAccess() {
     let paramRoleId = window.location.search.slice(1);
     acc = localStorage.getItem('acc');
-    console.log(acc)
     if (!acc)
         return window.location.replace('/no-access');
     [Name, Role] = acc.split(',');

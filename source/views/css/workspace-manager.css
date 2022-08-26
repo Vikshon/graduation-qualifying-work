@@ -64,19 +64,19 @@ h1, h2 {
     display: flex;
     justify-content: center;
 }
-.register-form {
+.content__form {
     display: inline-flex;
     flex-direction: column;
     row-gap: 1rem;
 }
-.register-form label {
+.content__form label {
     display: flex;
     column-gap: 1rem;
 }
-.register-form label span {
+.content__form label span {
     text-align: right;
 }
-.register-form label * {
+.content__form label * {
     width: 50%;
 }
 .form__buttons {
@@ -96,4 +96,18 @@ th, td {
 table, th, td {
     border: 1px solid #000;
     border-collapse: collapse;
+}
+.table-productsOrder {
+    margin-bottom: 0.8rem;
+}
+table select,
+table td > input {
+    width: 100%;
+    font-size: 1rem;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #000;
+}
+.table__productOrderAmount {
+    width: 2rem;
 }
